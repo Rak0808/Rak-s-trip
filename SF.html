@@ -217,6 +217,96 @@
 	  text-decoration: underline;
 	  text-decoration-thickness: 14%;
 	}
+
+	/* 모바일 대응 */
+@media (max-width: 600px) {
+  body {
+    background-size: cover;
+    background-position-y: 60px;
+    padding: 1rem;
+  }
+
+  .hamburger {
+    top: 15px;
+    left: 15px;
+    width: 25px;
+    height: 18px;
+  }
+
+  .hamburger span,
+  .hamburger::before,
+  .hamburger::after {
+    height: 3px;
+  }
+
+  .side-bar {
+    width: 100%;
+    left: -100%;
+    padding-left: 15px;
+  }
+
+  #menu:checked ~ .side-bar {
+    left: 0;
+  }
+
+  .side-bar a {
+    font-size: 18px;
+    padding: 6px 0;
+  }
+
+  .side-bar a:nth-child(8n+1),
+  .side-bar a:nth-child(10) {
+    font-size: 22px;
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  .digital-clock {
+    font-size: 1rem;
+  }
+
+  .digital-date {
+    font-size: 0.9rem;
+  }
+
+  .container {
+    position: static;
+    margin-top: 100px;
+    transform: none;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 0 12px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .gallery-item {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+  }
+
+  .info-row {
+    width: 100%;
+  }
+}
+	  
   </style>
 </head>
 <body>
