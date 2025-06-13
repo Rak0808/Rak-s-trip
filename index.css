@@ -19,7 +19,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position-y: 100px;
+  background-position-y: 110px;
   position: relative;
 }
 
@@ -151,6 +151,7 @@ h1 {
 }
 
 /* 모바일 대응 */
+/* 모바일 대응 */
 @media (max-width: 600px) {
   body {
     background-size: cover;
@@ -207,5 +208,22 @@ h1 {
     position: static;
     margin-top: 100px;
     transform: none;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .gallery-item {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 }
