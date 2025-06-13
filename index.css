@@ -152,6 +152,7 @@ h1 {
 
 /* 모바일 대응 */
 /* 모바일 대응 */
+/* 모바일 대응 */
 @media (max-width: 600px) {
   body {
     background-size: cover;
@@ -212,7 +213,7 @@ h1 {
 
   .gallery {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 
