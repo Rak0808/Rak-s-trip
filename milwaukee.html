@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MILWAUKEE</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Edu+SA+Hand:wght@400..700&family=Savate:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <style>
+	* {
+	  margin: 0;
+	  padding: 0;
+	  box-sizing: border-box;
+	  color: rgb(233 111 0);
+	}
+	body {
+	  background-color: #f2f2f2;
+	  font-family: "Savate", serif;
+	  font-weight: 400;
+	  font-style: normal;
+	  padding: 2rem;
+	}
+	h1 {
+	  text-align: center;
+	  margin-bottom: 2rem;
+	}
+	.gallery {
+	  display: grid;
+	  grid-template-columns: repeat(2, 500px);
+	  column-gap: 30px;
+	  row-gap: 60px;
+	  justify-content: center;
+	}
+	.gallery-item {
+	  width: 500px;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	}
+	.gallery-item a {
+	  position: relative;
+	  display: block;
+	  width: 100%;
+	}
+	.gallery-item img {
+	  width: 100%;
+	  border-radius: 8px;
+	  display: block;
+	}
+	.overlay {
+	  content: "";
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  background-color: rgba(233, 111, 0, 0.6);
+	  color: white;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 35px;
+	  font-weight: bold;
+	  opacity: 0;
+	  border-radius: 8px;
+	  transition: opacity 0.6s ease;
+	  z-index: 1;
+	}
+	.gallery-item a:hover .overlay {
+	  opacity: 1;
+	}
+	.info-row {
+	  position: relative;
+	  width: 100%;
+	  height: 24px;
+	  margin-top: 8px;
+	}
+	.photo-label {
+	  position: absolute;
+	  bottom: 5px;
+	  left: 5px;
+	  font-size: 16px;
+	  color: rgb(233 111 0);
+	}
+	.desc-toggle-area {
+	  bottom: 0;
+	  right: 0;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: flex-end;
+	  width: 100%;
+	}
+	.desc-toggle {
+	  width: 20px;
+	  height: 20px;
+	  border-radius: 4px;
+	  position: relative;
+	  cursor: pointer;
+	}
+	.desc-toggle::before,
+	.desc-toggle::after {
+	  content: "";
+	  position: absolute;
+	  width: 60%;
+	  height: 2px;
+	  background-color: rgb(233 111 0);
+	  top: 50%;
+	  left: 50%;
+	  transform-origin: center;
+	  transition: transform 0.4s ease;
+	}
+	.desc-toggle::before {
+	  transform: translate(-50%, -50%) rotate(45deg);
+	  left: 6px;
+	}
+	.desc-toggle::after {
+	  transform: translate(-50%, -50%) rotate(-45deg);
+	  left: 13px;
+	}
+	input[type="checkbox"] {
+	  display: none;
+	}
+	input[type="checkbox"]:checked + label.desc-toggle::before {
+	  transform: translate(-50%, -50%) rotate(-45deg);
+	}
+	input[type="checkbox"]:checked + label.desc-toggle::after {
+	  transform: translate(-50%, -50%) rotate(45deg);
+	}
+	.desc-box {
+	  width: 100%;
+	  background-color: rgba(233, 111, 0, 0.7);
+	  color: rgb(247, 247, 247);
+	  font-size: 12px;
+	  padding: 10px;
+	  border-radius: 4px;
+	  max-height: 0;
+	  overflow: hidden;
+	  opacity: 0;
+	  margin-top: 6px;
+	  transition: all 0.4s ease;
+	}
+	input[type="checkbox"]:checked + label + .desc-box {
+	  max-height: 200px;
+	  opacity: 1;
+	}
+	#menu {
+	  display: none;
+	}
+	.hamburger {
+	  position: fixed;
+	  top: 20px;
+	  left: 20px;
+	  width: 30px;
+	  height: 22px;
+	  cursor: pointer;
+	  z-index: 10000;
+	}
+	.hamburger span,
+	.hamburger::before,
+	.hamburger::after {
+	  content: '';
+	  position: absolute;
+	  height: 4px;
+	  background-color: rgb(233 111 0);
+	  width: 100%;
+	  transition: 0.4s;
+	}
+	.hamburger span {
+	  top: 9px;
+	}
+	.hamburger::before {
+	  top: 0;
+	}
+	.hamburger::after {
+	  bottom: 0;
+	}
+	#menu:checked + .hamburger::before {
+	  transform: rotate(45deg);
+	  top: 9px;
+	  background-color: rgb(250, 246, 246);
+	}
+	#menu:checked + .hamburger::after {
+	  transform: rotate(-45deg);
+	  bottom: 9px;
+	  background-color: rgb(250, 246, 246);
+	}
+	#menu:checked + .hamburger span {
+	  opacity: 0;
+	}
+	.side-bar {
+	  position: fixed;
+	  top: 0;
+	  left: -250px;
+	  width: 250px;
+	  height: 100vh;
+	  background-color: rgb(233 111 0);
+	  opacity: 92%;
+	  padding-top: 80px;
+	  padding-left: 20px;
+	  display: flex;
+	  flex-direction: column;
+	  gap: 30px;
+	  transition: 0.8s ease;
+	  z-index: 9999;
+	}
+	#menu:checked ~ .side-bar {
+	  left: 0;
+	}
+	.side-bar a {
+	  text-decoration: none;
+	  color: rgb(250, 246, 246);
+	  font-size: 20px;
+	}
+	.side-bar a:nth-child(8n+1),
+	.side-bar a:nth-child(10) {
+	  font-size: 25px;
+	  text-decoration: underline;
+	  text-decoration-thickness: 14%;
+	}
+  </style>
+</head>
+
+<body>
+  <h1>MILWAUKEE</h1>
+  <div class="gallery">
+	<div class="gallery-item">
+	  <a data-fancybox="gallery" href="../MILWAUKEE/5D29744D-CB92-4CF2-B093-77F9BCF820A0.jpg">
+		<img src="../MILWAUKEE/5D29744D-CB92-4CF2-B093-77F9BCF820A0.jpg" alt="작품 1">
+		<div class="overlay">YANKEE HILL</div>
+	  </a>
+	  <div class="info-row">
+		<div class="photo-label">2023.12.18-2023.12.19</div>
+		<div class="desc-toggle-area">
+		  <input type="checkbox" id="desc-check1">
+		  <label class="desc-toggle" for="desc-check1"></label>
+		  <div class="desc-box">5GUYS</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="gallery-item">
+	  <a data-fancybox="gallery" href="../MILWAUKEE/IMG_6841.JPG">
+		<img src="../MILWAUKEE/IMG_6841.JPG" alt="작품 2">
+		<div class="overlay">ON THE TRAIN</div>
+	  </a>
+	  <div class="info-row">
+		<div class="photo-label">2023.12.18-2023.12.19</div>
+		<div class="desc-toggle-area">
+		  <input type="checkbox" id="desc-check2">
+		  <label class="desc-toggle" for="desc-check2"></label>
+		  <div class="desc-box">FIVE GUYS 2</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="gallery-item">
+	  <a data-fancybox="gallery" href="../MILWAUKEE/IMG_6925.JPG">
+		<img src="../MILWAUKEE/IMG_6925.JPG" alt="작품 3">
+		<div class="overlay">LAKE PARK FRIENDS</div>
+	  </a>
+	  <div class="info-row">
+		<div class="photo-label">2023.12.18-2023.12.19</div>
+		<div class="desc-toggle-area">
+		  <input type="checkbox" id="desc-check3">
+		  <label class="desc-toggle" for="desc-check3"></label>
+		  <div class="desc-box">LION</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="gallery-item">
+	  <a data-fancybox="gallery" href="../MILWAUKEE/IMG_6978.JPG">
+		<img src="../MILWAUKEE/IMG_6978.JPG" alt="작품 4">
+		<div class="overlay">HARLEY-DAVIDSON MUSEUM</div>
+	  </a>
+	  <div class="info-row">
+		<div class="photo-label">2023.12.18-2023.12.19</div>
+		<div class="desc-toggle-area">
+		  <input type="checkbox" id="desc-check4">
+		  <label class="desc-toggle" for="desc-check4"></label>
+		  <div class="desc-box">HOORAY!</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="gallery-item">
+	  <a data-fancybox="gallery" href="../MILWAUKEE/IMG_6986.JPG">
+		<img src="../MILWAUKEE/IMG_6986.JPG" alt="작품 5">
+		<div class="overlay">HARLEY-DAVIDSON MUSEUM</div>
+	  </a>
+	  <div class="info-row">
+		<div class="photo-label">2023.12.18-2023.12.19</div>
+		<div class="desc-toggle-area">
+		  <input type="checkbox" id="desc-check5">
+		  <label class="desc-toggle" for="desc-check5"></label>
+		  <div class="desc-box">SNAPSHOT</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="gallery-item">
+	  <a data-fancybox="gallery" href="../MILWAUKEE/IMG_7020.JPG">
+		<img src="../MILWAUKEE/IMG_7020.JPG" alt="작품 6">
+		<div class="overlay">ON THE TRAIN</div>
+	  </a>
+	  <div class="info-row">
+		<div class="photo-label">2023.12.18-2023.12.19</div>
+		<div class="desc-toggle-area">
+		  <input type="checkbox" id="desc-check6">
+		  <label class="desc-toggle" for="desc-check6"></label>
+		  <div class="desc-box">BEAUTIFUL SKY</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="gallery-item">
+	  <a data-fancybox="gallery" href="../MILWAUKEE/IMG_7038.JPG">
+		<img src="../MILWAUKEE/IMG_7038.JPG" alt="작품 7">
+		<div class="overlay">AIRBNB YARD</div>
+	  </a>
+	  <div class="info-row">
+		<div class="photo-label">2023.12.18-2023.12.19</div>
+		<div class="desc-toggle-area">
+		  <input type="checkbox" id="desc-check7">
+		  <label class="desc-toggle" for="desc-check7"></label>
+		  <div class="desc-box">CHILLING</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="gallery-item">
+	  <a data-fancybox="gallery" href="../MILWAUKEE/IMG_7054.JPG">
+		<img src="../MILWAUKEE/IMG_7054.JPG" alt="작품 8">
+		<div class="overlay">HARLEY-DAVIDSON MUSEUM</div>
+	  </a>
+	  <div class="info-row">
+		<div class="photo-label">2023.12.18-2023.12.19</div>
+		<div class="desc-toggle-area">
+		  <input type="checkbox" id="desc-check8">
+		  <label class="desc-toggle" for="desc-check8"></label>
+		  <div class="desc-box">GOGO</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="gallery-item">
+	  <a data-fancybox="gallery" href="../MILWAUKEE/IMG_7161.JPG">
+		<img src="../MILWAUKEE/IMG_7161.JPG" alt="작품 9">
+		<div class="overlay">MILWAUKEE ART MUSEUM</div>
+	  </a>
+	  <div class="info-row">
+		<div class="photo-label">2023.12.18-2023.12.19</div>
+		<div class="desc-toggle-area">
+		  <input type="checkbox" id="desc-check9">
+		  <label class="desc-toggle" for="desc-check9"></label>
+		  <div class="desc-box">EXTRAORDINARY MUSEUM</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="gallery-item">
+	  <a data-fancybox="gallery" href="../MILWAUKEE/IMG_6917.JPG">
+		<img src="../MILWAUKEE/IMG_6917.JPG" alt="작품 10">
+		<div class="overlay">LIGHTHOUSE</div>
+	  </a>
+	  <div class="info-row">
+		<div class="photo-label">2023.12.18-2023.12.19</div>
+		<div class="desc-toggle-area">
+		  <input type="checkbox" id="desc-check10">
+		  <label class="desc-toggle" for="desc-check10"></label>
+		  <div class="desc-box">5 GUYS 3</div>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+  <!-- 햄버거 메뉴 -->
+  <input type="checkbox" id="menu">
+  <label class="hamburger" for="menu">
+	<span></span>
+  </label>
+  <div class="side-bar">
+	  <a>WHERE</a>
+	  <a href="chicago.html">CHICAGO</a>
+	  <a href="la.html">LA</a>
+	<a href="milwaukee.html">MILWAUKEE</a>
+	  <a href="boston.html">BOSTON</a>
+	  <a href="orlando.html">ORLANDO</a>
+	  <a href="sf.html">SAN FRANCISCO</a>
+	  <a href="ny.html">NY</a>
+	  <a href="map.html">MAP</a>
+	  <a href="index.html">HOME</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+  <script>
+	Fancybox.bind("[data-fancybox='gallery']", {
+	  Toolbar: {
+		display: [
+		  { id: "counter", position: "center" },
+		  "close"
+		]
+	  }
+	});
+  </script>
+  
+</body>
+</html>
