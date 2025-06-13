@@ -148,3 +148,60 @@ h1 {
 	font-weight: 400;
 	padding-top: 10px;
 }
+
+@media (max-width: 600px) {
+  body {
+    background-size: cover;
+    background-position-y: 60px;
+    padding: 1rem;
+  }
+
+  .hamburger {
+    top: 15px;
+    left: 15px;
+    width: 25px;
+    height: 18px;
+  }
+
+  .hamburger span,
+  .hamburger::before,
+  .hamburger::after {
+    height: 3px;
+  }
+
+  .side-bar {
+    width: 100%;
+    left: -100%;
+    padding-top: 70px;
+    padding-left: 15px;
+  }
+
+  #menu:checked ~ .side-bar {
+    left: 0;
+  }
+
+  .side-bar a {
+    font-size: 18px;
+    padding: 5px 0;
+  }
+
+  .side-bar a:nth-child(8n+1),
+  .side-bar a:nth-child(10) {
+    font-size: 22px;
+  }
+
+  h1 {
+    font-size: 36px;
+    padding-top: 20px;
+  }
+
+  .digital-clock {
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+
+  .digital-date {
+    font-size: 0.9rem;
+    margin-bottom: -20px;
+  }
+}
