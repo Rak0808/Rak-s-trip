@@ -154,6 +154,7 @@ h1 {
 /* 모바일 대응 */
 /* 모바일 대응 */
 /* 모바일 대응 */
+/* 모바일 대응 */
 @media (max-width: 600px) {
   body {
     background-size: cover;
@@ -222,12 +223,20 @@ h1 {
   .gallery-item {
     width: 100%;
     max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .gallery-item img {
     width: 100%;
+    max-width: 100%;
     height: auto;
     display: block;
     border-radius: 4px;
+  }
+
+  .info-row {
+    width: 100%;
   }
 }
